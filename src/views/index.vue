@@ -1,18 +1,20 @@
 <template>
-  <div class="header">
-    <h1>ddd</h1>
+  <!--<div class="header">-->
+    <!--<h1>ddd</h1>-->
+  <!--</div>-->
+  <div>
+    <header></header>
   </div>
 </template>
-
-<style>
-  .header{
-    position: fixed;
-    top:0px;
-    left: 0px;
-    background-color:red;
-    width: 100%;
-    height: 10%;
+<script>
+  import header from '../components/header.vue'
+  export default {
+    components: {
+      header
+    }
   }
+</script>
+<style>
   .bg-purple {
     background: #d3dce6;
   }
