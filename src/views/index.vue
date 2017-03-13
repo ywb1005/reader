@@ -1,5 +1,4 @@
 <template>
-<<<<<<< HEAD
   <div>
     <header></header>
     <transition name="slide-fade">
@@ -8,27 +7,10 @@
   </div>
 </template>
 <script>
-  import header from 'components/header.vue'
-  export default {
-    components: {
-      header
-    },
-    data () {
-      return
-=======
-  <div class="container">
-  		<headers></headers>
-    <div class="row">
-    <h1>asss</h1>
-    </div>
-  </div>
-</template>
-<script>
   import headers from 'components/header.vue'
   export default {
     components: {
       headers
->>>>>>> 1eb4a43ea05b919eb0de93dd71edaa8e25be19db
     }
   }
 </script>
