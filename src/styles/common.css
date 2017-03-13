@@ -15,6 +15,9 @@ a:visited {
 a:link {
   text-decoration: none;
 }
+h1 {
+	font-family: sans-serif;
+}
 h3 {
   font-family: sans-serif;
   margin-left: 10px;
