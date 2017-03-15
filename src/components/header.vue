@@ -42,32 +42,33 @@
   	height: 80px;
   	float: left;
   	margin-left:15% ;
+    padding-top: 0.8%;
   }
   .search{
   	margin-left: 30%;
   	float: left;
   	width: 20%;
   	height: 80px;
-  	padding-top: 30px;
+  	padding-top: 1.5%;
   }
   .spn:hover{
   	color: #20A0FF;
   	text-decoration:underline
   }
-  @media (min-width: 1248px){
+  @media (min-width: 1024px){
   	.menu{
   		display: none;
   	}
 	.user{
-	  	width: 10%;
+	  	width: 15%;
 	  	height: 80px;
 	  	margin-left: 2%;
 	  	float: left;
 	  	font-size: 22px;
-	  	padding-top: 30px;
+	  	padding-top: 1.5%;
   	}
   }
-  @media (min-width: 900px) and (max-width:1248px){
+  @media (min-width: 900px) and (max-width:1024px){
 	.user{
 	  	display: none;
   	}
@@ -76,7 +77,7 @@
 	  	height: 80px;
 	  	margin-left: 2%;
 	  	float: left;
-	  	padding-top: 40px;
+	  	padding-top: 2.5%;
   	}
   }
   @media (max-width: 900px){
@@ -91,7 +92,7 @@
 	  	height: 80px;
 	  	margin-left: 30%;
 	  	float: left;
-	  	padding-top: 40px;
+	  	padding-top: 2.5%;
   	}
   }
 </style>
