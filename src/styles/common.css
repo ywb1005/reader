@@ -1,6 +1,7 @@
 /* initialize base element style sheet */
 body {
-  background: #f3f3f4;
+  background-color: #ffffff;
+  position: relative;
   font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
 }
 a {

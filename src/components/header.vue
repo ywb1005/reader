@@ -35,11 +35,13 @@
     left: 0px;
     background-color:#EEEEEE;
     width: 100%;
-    height: 10%;
+    height: 73px;
+    z-index: 11111;
+    border-bottom: 1px solid #fff;
   }
   .img{
   	width: 10%;
-  	height: 80px;
+  	height: 10%;
   	float: left;
   	margin-left:15% ;
     padding-top: 0.8%;

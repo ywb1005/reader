@@ -1,12 +1,4 @@
 @import "common.css";
-/* 顶部栏 */
-.top-bar {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1111;
-}
 /* content */
 .main {
   background: #fff;
@@ -28,8 +20,8 @@
 /* 有菜单 */
 .container {
   min-width: 892px;
-  margin-top: 64px;
-  margin-left: 224px;
+  margin-top: 146px;
+  /*margin-left: 224px;*/
   transition: margin .5s;
 }
 /* 虚线 */

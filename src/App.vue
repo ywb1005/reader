@@ -3,12 +3,17 @@
     <transition name="slide-fade">
       <router-view></router-view>
     </transition>
+  <footers></footers>
   </div>
 </template>
 
 <script>
+  import footers from 'components/footer.vue'
 export default {
-  name: 'app'
+    name: 'app',
+    components: {
+      footers
+    }
 }
 </script>
 
