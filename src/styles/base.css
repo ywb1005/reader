@@ -7,6 +7,7 @@
 .row {
   width: 96%;
   margin: 0 auto;
+  overflow: scroll;
   clear: both;
 }
 /* 页面首个标题 */

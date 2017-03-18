@@ -5,10 +5,8 @@
     <div class="container">
       <div class="block">
         <el-carousel height="250px">
-          <el-carousel-item v-for="item in 4">
-            <div class="img">
-              <a><img src="../assets/banner.jpeg" style="width: 100%; height: 100%;"></a>
-            </div>
+          <el-carousel-item v-for="item in 3">
+              <a><img src="../assets/banner.jpeg"></a>
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -58,6 +56,7 @@
     width: 96%;
     margin: 0 auto;
     background-color: #8c939d;
+    overflow: scroll;
     z-index: 999;
   }
   .el-carousel__item h3 {
@@ -67,10 +66,10 @@
     line-height: 150px;
     margin: 0;
   }
-  .img{
-    margin: 0 auto;
-    height: 100%;
+  .el-carousel__item img{
     width: 100%;
+    height: 250px;
+    background-repeat:repeat-x;
   }
   .book-cell{
     margin-top: 20px;
