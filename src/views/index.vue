@@ -23,7 +23,7 @@
               <li>
                 <div class="book-img"><img :src="book.img"></div>
                 <div class="book-name"><span>&lt;{{book.name}}&gt;</span></div>
-                <div class="book-author"><span>作者:{{book.author}}<span></div>
+                <div class="book-author"><span>作者:{{book.author}}</span></div>
               </li>
             </ul>
           </div>
@@ -47,6 +47,11 @@
           {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
           {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
           {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
           {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'}
         ]
       }
@@ -55,7 +60,8 @@
 </script>
 <style>
   .block{
-    width: 96%;
+    width: 90%;
+    height: 420px;
     margin: 0 auto;
     background-color: #8c939d;
     z-index: 999;
@@ -90,8 +96,8 @@
     padding: 20px;
   }
   .book-list{
-    width: 1200px;
-    height: 260px;
+    width: 100%;
+    height: 280px;
     margin-top: 20px;
     border: 1px solid #eee;
     overflow:hidden;
