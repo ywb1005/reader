@@ -5,9 +5,9 @@
 }
 /* 定义大小 */
 .row {
-  width: 96%;
+  width: 1252px;
   margin: 0 auto;
-  overflow: scroll;
+  overflow: hidden;
   clear: both;
 }
 /* 页面首个标题 */
@@ -21,7 +21,7 @@
 /* 有菜单 */
 .container {
   min-width: 892px;
-  margin-top: 146px;
+  margin-top: 1px;
   /*margin-left: 224px;*/
   transition: margin .5s;
 }

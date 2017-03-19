@@ -50,6 +50,7 @@
           {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
           {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
           {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
           {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'}
         ]
       }
@@ -58,11 +59,10 @@
 </script>
 <style>
   .block{
-    width: 90%;
-    height: 420px;
+    width: 1252px;
+    height: 250px;
     margin: 0 auto;
     background-color: #8c939d;
-    overflow: scroll;
     z-index: 999;
   }
   .el-carousel__item h3 {
@@ -93,13 +93,14 @@
   .book-list li{
     float: left;
     padding: 20px;
+    margin: 5px;
+    border: 1px solid #20A0FF;
   }
   .book-list{
-    width: 100%;
-    height: 280px;
+    width: 99%;
+    height: 580px;
     margin-top: 20px;
-    border: 1px solid #eee;
-    overflow:hidden;
+    border: 1px solid #EEEEEE;
   }
   .book-name,.book-author{
     margin-top: 10px;

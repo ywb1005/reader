@@ -8,7 +8,7 @@
     </el-form>
     <div class="user">
     	<span class="spn">注册</span>
-    	<img style="width: 20px;height: 25px;" src="../assets/line.png"/>
+    	<span>|</span>
     	<span class="spn">登录</span>
     </div>
   </div>
@@ -20,7 +20,7 @@
     left: 0px;
     background-color:#EEEEEE;
     width: 100%;
-    height: 73px;
+    height: 70px;
     z-index: 11111;
     overflow: hidden;
     border-bottom: 1px solid #fff;
@@ -46,7 +46,7 @@
     margin-right: 5%;
     float: right;
     font-size: 22px;
-    padding-top: 2%;
+    padding-top: 1.5%;
   }
   .user span{
     font-size: 16px;

@@ -11,17 +11,13 @@
 </template>
 <style>
   .navbar{
-    width: 100%;
+    width: 1252px;
     height: 60px;
-    position: absolute;
-    top:74px;
-    left: 0px;
+    margin: 73px auto;
+    margin-bottom: 0px;
     z-index: 1111;
   }
-  .el-menu{
-    overflow: scroll;
-  }
   .el-menu-item{
-    padding:0 50px;
+    padding:0 100px;
   }
 </style>
