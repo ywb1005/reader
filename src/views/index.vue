@@ -19,13 +19,46 @@
           <div class="book-list" v-model="bookList">
             <ul v-for="book in bookList">
               <li>
-                <div class="book-img"><img :src="book.img"></div>
-                <div class="book-name"><span>&lt;{{book.name}}&gt;</span></div>
-                <div class="book-author"><span>作者:{{book.author}}</span></div>
+                <div class="book-img">
+                	<router-link :to="{ path: '/book/'+book.id }">
+                		<img :src="book.img">
+                	</router-link>
+                </div>
+                <div class="book-name">
+                	<router-link :to="{ path: '/book/'+book.id }">
+                		<span>&lt;{{book.name}}&gt;</span>
+                	</router-link>
+                </div>
+                <div class="book-author">
+                	<span>作者:{{book.author}}</span>
+                </div>
               </li>
             </ul>
           </div>
         </div>
+        <div class="book-cell">
+        <div class="cell-title">
+            <h2>最新上架</h2>
+            <a class="cell-a">更多></a>
+          </div>
+          <div class="book-list newbook" v-model="newBookList">
+            <ul v-for="book in newBookList">
+              <li>
+                <div class="book-img">
+                	<router-link :to="{ path: '/book/'+book.id }">
+                		<img :src="book.img">
+                	</router-link>
+                </div>
+                <div class="book-name">
+                	<router-link :to="{ path: '/book/'+book.id }">
+                		<span>&lt;{{book.name}}&gt;</span>
+                	</router-link>
+                </div>
+                <div class="book-author"><span>作者:{{book.author}}</span></div>
+              </li>
+            </ul>
+          </div>
+          </div>
       </div>
   </div>
   </div>
@@ -40,18 +73,26 @@
     data () {
       return {
         bookList: [
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标'}
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 1},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 2},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 3},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 4},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 5},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 6},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 7},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 8},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 9},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 10},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 11},
+          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 12}
+        ],
+        newBookList: [
+        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 1},
+        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 2},
+        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 3},
+        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 4},
+        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 5},
+        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 6}
         ]
       }
     }
@@ -79,10 +120,11 @@
   }
   .book-cell{
     margin-top: 20px;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
   }
   .cell-a{
     float: right;
+    cursor:pointer;
   }
   .cell-title h2{
     display: inline;
@@ -102,12 +144,22 @@
     margin-top: 20px;
     border: 1px solid #EEEEEE;
   }
+  .newbook{
+  	height: 290px;
+  }
   .book-name,.book-author{
     margin-top: 10px;
   }
   .book-name span{
     font-size: 22px;
     color: #5c5050;
+    cursor:pointer;
+  }
+  .book-name span:hover{
+  	color: 	#EE9A49;
+  }
+  .book-img img{
+  	cursor:pointer;
   }
   .book-author span{
     font-size: 14px;

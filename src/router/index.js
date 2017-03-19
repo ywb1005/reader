@@ -11,6 +11,13 @@ const router = new Router({
       component (resolve) {
         require(['views/index.vue'], resolve)
       }
+    },
+    {
+      path: '/book/:id',
+      title: '书籍信息',
+      component (resolve) {
+        require(['views/book.vue'], resolve)
+      }
     }
   ]
 })

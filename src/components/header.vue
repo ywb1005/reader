@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-  		<img src="../assets/index.png" />
+  		<router-link to="/"><img src="../assets/index.png" /></router-link>
     <el-form ref="form" :model="form" label-width="90px">
       <el-form-item label="搜索本站">
         <el-input v-model="input" placeholder="请输入内容" icon="search"></el-input>
