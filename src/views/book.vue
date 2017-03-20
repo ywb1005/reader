@@ -94,12 +94,12 @@
   .book-img{
   	width: 200px;
   	height: 200px;
-  	margin-left: 80px; 
-  	margin-top: 50px; 
+  	margin-left: 80px;
+  	margin-top: 50px;
   	float: left;
   	}
   .book-info{
-  	margin-top: 50px; 
+  	margin-top: 50px;
   	width: 70%;
   	float: left;
   }
@@ -126,7 +126,7 @@
   	width: 100%;
   	height: 250px;
   	padding-top: 20px;
-  	margin-left: 60px; 
+  	margin-left: 60px;
   	overflow: hidden;
   }
   .section ul {
@@ -143,6 +143,12 @@
   	font-size: 20px;
   	color: brown;
   	background-color: #50bfff;
+    border-radius: 5px;
   	border: 1px solid #EEEEEE;
+  }
+  .section a:hover{
+    background-color: #ffffff;
+    color: red;
+    cursor: pointer;
   }
 </style>
