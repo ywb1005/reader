@@ -17,7 +17,7 @@
       		</div>
       		<div class="book-info">
       			<h2>{{bookName}}</h2>
-      			<span class="spn">叶伟标 著</span>
+      			<span class="spn">{{author}} 著</span>
       			<br />
       			<br />
       			<el-tag>标签一</el-tag>
@@ -34,14 +34,16 @@
  						<el-button type="info">立即阅读</el-button>
  						<el-button type="info">加入收藏</el-button>
       		</div>
-      		<div class="section">
-      			<h3>全部章节</h3>
-      			<ul>
-      				<li v-for="book in bookInfo">
-      					<a>第{{book.id}}章 {{book.name}}</a>
-      					</li>
-      			</ul>
-      		</div>
+      	</div>
+      	<div class="book-tab">
+      			<el-tabs v-model="activeName" @tab-click="handleClick">
+    				<el-tab-pane label="作品信息" name="first">
+    					<p>四大皆空很好但是时间快点发货金色都汇收到回复客户</p>
+    					<p>四大皆空很好但是时间快点发货金色都汇收到回复客户</p>
+    				</el-tab-pane>
+    				<el-tab-pane label="目录" name="second">配置管理</el-tab-pane>
+    				<el-tab-pane label="评论专区" name="third">角色管理</el-tab-pane>
+  					</el-tabs>
       	</div>
       </div>
   </div>
@@ -57,7 +59,13 @@
     data () {
       return {
         catName: '存储',
+        activeName: 'first',
         bookName: '盗天仙途',
+        author: '荆轲守',
+        isShow: true,
+        isActive1: true,
+        isActive2: false,
+        isActive3: false,
         bookInfo: [
         {id: 11, name: '蔑视'},
         {id: 12, name: '骑士'},
@@ -70,8 +78,30 @@
         {id: 19, name: '无敌'},
         {id: 20, name: '蔑视'},
         {id: 21, name: '骑士'},
-        {id: 22, name: '无敌'}
+        {id: 22, name: '无敌更好'}
         ]
+      }
+    },
+    methods: {
+      show (num) {
+        if (num === 1) {
+          this.isActive1 = true
+          this.isActive2 = false
+          this.isActive3 = false
+          this.isShow = true
+        }
+        if (num === 2) {
+          this.isActive1 = false
+          this.isActive2 = true
+          this.isActive3 = false
+          this.isShow = false
+        }
+        if (num === 3) {
+          this.isActive1 = false
+          this.isActive2 = false
+          this.isActive3 = true
+          this.isShow = false
+        }
       }
     }
   }
@@ -84,9 +114,10 @@
   }
   .info{
   	width: 98%;
-  	height: 600px;
+  	height: 300px;
   	margin-top: 20px;
   	border: 1px solid #8C939D;
+  	border-bottom: 1px solid #FFFFFF;
   	margin-bottom: 40px;
   	overflow: hidden;
   	/*background-color: #EEEEEE;*/
@@ -121,34 +152,10 @@
   .el-button{
   	margin-bottom: 20px;
   }
-  .section{
-  	clear: both;
-  	width: 100%;
-  	height: 250px;
-  	padding-top: 20px;
-  	margin-left: 60px;
-  	overflow: hidden;
-  }
-  .section ul {
-  	padding: 0;
-  	list-style: none;
-  }
-  .section li{
-  	padding-left: 10px;
-  	padding-top: 15px;
-  	float: left;
-  }
-  .section a{
-  	padding: 3px;
-  	font-size: 20px;
-  	color: brown;
-  	background-color: #50bfff;
-    border-radius: 5px;
-  	border: 1px solid #EEEEEE;
-  }
-  .section a:hover{
-    background-color: #ffffff;
-    color: red;
-    cursor: pointer;
+  .book-tab{
+  	width: 98%;
+  	height: auto;
+  	clear: all;
+  	margin-bottom: 80px;
   }
 </style>
