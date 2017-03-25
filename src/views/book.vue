@@ -31,18 +31,49 @@
       			<span class="desc">摘要</span>
       			<p>故事发生在1866年,法国人阿龙纳斯,一位生物学家,应邀赴美参加一项科学考察活动.这时,海上出了个怪物,在全世界闹得沸沸扬扬.科考活动结束之后,生物学家正准备束装就道,返回法国,却接到美国海军部的邀请,于是改弦更张,登上了一艘驱逐舰林肯号,参与“把那个怪物从海洋中清除出去 ”的活动.
 经过千辛万苦</p>
- 						<el-button type="info">立即阅读</el-button>
+ 						<el-button type="info" @click="read(1)">立即阅读</el-button>
  						<el-button type="info">加入收藏</el-button>
       		</div>
       	</div>
       	<div class="book-tab">
-      			<el-tabs v-model="activeName" @tab-click="handleClick">
+      			<el-tabs v-model="activeName">
     				<el-tab-pane label="作品信息" name="first">
     					<p>四大皆空很好但是时间快点发货金色都汇收到回复客户</p>
     					<p>四大皆空很好但是时间快点发货金色都汇收到回复客户</p>
     				</el-tab-pane>
-    				<el-tab-pane label="目录" name="second">配置管理</el-tab-pane>
-    				<el-tab-pane label="评论专区" name="third">角色管理</el-tab-pane>
+    				<el-tab-pane label="目录" name="second" v-model="bookInfo">
+    					<h3>全部章节（共{{bookInfo.length}}章）</h3>
+    					<ul class="book-cat-ul">
+    						<li class="book-cat-li" v-for="cat in bookInfo" @click="read(cat.id)">第{{cat.id}}章   {{cat.name}}</li>
+    					</ul>
+    				</el-tab-pane>
+    				<el-tab-pane label="评论专区" name="third" style="background-color: #EEEEEE;height: 700px;">
+    					<div class="comment">
+    						<el-form ref="form" :model="form" label-width="80px" style="padding-left:40px;height: 185px; border-bottom: 1px dashed #8C939D;">
+  						<el-form-item style="margin: 0 auto;" label="新增评论">
+    					<el-input v-model="form.name" placeholder="请输入评论内容"></el-input>
+  						</el-form-item>
+  						<el-form-item style="padding: 0px;margin-left: 0px;">
+  							<el-button type="primary" @click="onSubmit">评论</el-button>
+  						</el-form-item>
+  						</el-form>
+  						<div class="comment-list">
+  							<ul style="width: 100%;height: 100%;padding:0px;margin: 0;">
+  								<li class="comment-li" v-for="comment in commentList">
+  									<div class="user-head" >
+  										<img style="width: 64px;height: 64px;" src="../assets/user.png" />
+  									</div>
+  									<div class="comment-info">
+  										<span style="color: #F7BA2A;font-size: 20px;">{{comment.user}}: </span>
+  										<span>{{comment.info}}</span>
+  										<br /><br />
+  										<span style="color: #8C939D;font-size: 14px;">2017-04-01 12:00:52</span>
+  									</div>
+  								</li>
+  							</ul>
+  						</div>
+    					</div>
+    				</el-tab-pane>
   					</el-tabs>
       	</div>
       </div>
@@ -61,13 +92,12 @@
         catName: '存储',
         activeName: 'first',
         bookName: '盗天仙途',
+        form: {
+          name: ''
+        },
         author: '荆轲守',
-        isShow: true,
-        isActive1: true,
-        isActive2: false,
-        isActive3: false,
         bookInfo: [
-        {id: 11, name: '蔑视'},
+        {id: 11, name: '蔑视真的是'},
         {id: 12, name: '骑士'},
         {id: 13, name: '无敌'},
         {id: 14, name: '蔑视'},
@@ -79,29 +109,20 @@
         {id: 20, name: '蔑视'},
         {id: 21, name: '骑士'},
         {id: 22, name: '无敌更好'}
+        ],
+        commentList: [
+          {id: 1, user: '叶伟标', info: '大师傅大师傅但是示范点发射点顺丰速递'},
+          {id: 2, user: '大师傅似的', info: '大师傅大师傅但是示范点发射点顺丰速递'},
+          {id: 1, user: '叶伟标', info: '大师傅大师傅但是示范点发射点顺丰速递'},
+          {id: 2, user: '大师傅似的', info: '大师傅大师傅但是示范点发射点顺丰速递'},
+          {id: 1, user: '叶伟标', info: '大师傅大师傅但是示范点发射点顺丰速递'}
         ]
       }
     },
     methods: {
-      show (num) {
-        if (num === 1) {
-          this.isActive1 = true
-          this.isActive2 = false
-          this.isActive3 = false
-          this.isShow = true
-        }
-        if (num === 2) {
-          this.isActive1 = false
-          this.isActive2 = true
-          this.isActive3 = false
-          this.isShow = false
-        }
-        if (num === 3) {
-          this.isActive1 = false
-          this.isActive2 = false
-          this.isActive3 = true
-          this.isShow = false
-        }
+      read (section = 1) {
+        console.log(this.$route.path)
+        this.$router.push({'path': this.$route.path + '/section/' + section})
       }
     }
   }
@@ -119,6 +140,7 @@
   	border: 1px solid #8C939D;
   	border-bottom: 1px solid #FFFFFF;
   	margin-bottom: 40px;
+  	border-radius: 5px;
   	overflow: hidden;
   	/*background-color: #EEEEEE;*/
   }
@@ -152,10 +174,55 @@
   .el-button{
   	margin-bottom: 20px;
   }
+  .book-cat-ul{
+  	padding: 0px;
+  	margin: 0px;
+  }
+  .book-cat-li{
+    font: 14px/40px PingFangSC-Regular,'-apple-system',Simsun;
+  	width: 290px;
+  	padding-right: 23px;
+  	float: left;
+  	text-align: left;
+  	cursor: pointer;
+  	border-bottom: 1px solid #EEEEEE;
+  }
   .book-tab{
+  	height: 100%;
+  	margin-bottom: 60px;
+  }
+  .comment .el-form-item{
   	width: 98%;
-  	height: auto;
-  	clear: all;
-  	margin-bottom: 80px;
+  }
+  .el-input{
+  	width:80%;
+  	float: left;
+  }
+  .comment{
+  	width: 64%;
+  	height: 100%;
+  	margin: 0 auto;
+  	background-color: #FFFFFF;
+  }
+  .comment-list{
+  	margin: 0 auto;
+  	height: 450px;
+  }
+  .comment-li{
+  	height: 70px;
+  	margin-top: 20px;
+  	border-bottom: 1px dashed #888888;
+  }
+  .user-head{
+  	width: 64px;
+  	height: 64px;
+  	float: left;
+  	margin-left: 10px;
+  }
+  .comment-info{
+  	float: left;
+  	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  }
+  .comment-info span{
   }
 </style>

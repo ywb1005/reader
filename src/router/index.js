@@ -18,6 +18,13 @@ const router = new Router({
       component (resolve) {
         require(['views/book.vue'], resolve)
       }
+    },
+    {
+      path: '/book/:id/section/:sectionId',
+      title: '书籍信息',
+      component (resolve) {
+        require(['views/read.vue'], resolve)
+      }
     }
   ]
 })

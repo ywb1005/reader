@@ -27,3 +27,6 @@ h5 small {
   line-height: 1;
   color: #777;
 }
+ul{
+ 	list-style: none;
+}
