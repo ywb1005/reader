@@ -1,22 +1,22 @@
 <template>
   <div class="header">
   		<router-link to="/"><img src="../assets/index.png" /></router-link>
-    <el-form class="search" ref="form" :model="form" label-width="90px">
+    <el-form class="search" :model="searchForm" label-width="90px">
       <el-form-item label="搜索本站">
-        <el-input v-model="input" placeholder="请输入内容" icon="search"></el-input>
+        <el-input v-model="searchForm.key" placeholder="请输入内容" icon="search"></el-input>
       </el-form-item>
     </el-form>
     <div class="user">
     	<span class="spn" @click="dialogRegisterFormVisible = true">注册</span>
     	<span>|</span>
     	<span class="spn" @click="dialogLoginFormVisible = true">登录</span>
-      <el-dialog title="书 屋 登 录" v-model="dialogLoginFormVisible" class="login">
-        <el-form :model="form" label-width="80px">
+      <el-dialog title="书 屋 登 录" v-model="dialogLoginFormVisible" class="login" :modal-append-to-body="false">
+        <el-form :model="loginForm" label-width="80px">
           <el-form-item label="用户名">
-            <el-input v-model="form.username" placeholder="手机号\用户名\电子邮箱"></el-input>
+            <el-input v-model="loginForm.username" placeholder="手机号\用户名\电子邮箱"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input type="password" v-model="form.password"  placeholder="密码"></el-input>
+            <el-input type="password" v-model="loginForm.password"  placeholder="密码"></el-input>
           </el-form-item>
           <el-form-item>
             <el-checkbox v-model="checked">记住密码</el-checkbox>
@@ -31,13 +31,13 @@
           <el-button  @click="dialogFormVisible = false" size="large">取 消</el-button>
         </div>
       </el-dialog>
-      <el-dialog title="书 屋 用 户 注 册" v-model="dialogRegisterFormVisible" class="register">
-        <el-form :model="form" label-width="80px">
+      <el-dialog title="书 屋 用 户 注 册" v-model="dialogRegisterFormVisible" class="register" :modal-append-to-body="false">
+        <el-form :model="registerForm" label-width="80px">
           <el-form-item label="用户名">
-            <el-input v-model="form.username" placeholder="手机号\用户名\电子邮箱"></el-input>
+            <el-input v-model="registerForm.username" placeholder="手机号\用户名\电子邮箱"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input type="password" v-model="form.password"  placeholder="密码"></el-input>
+            <el-input type="password" v-model="registerForm.password"  placeholder="密码"></el-input>
           </el-form-item>
           <el-form-item>
             <el-checkbox v-model="checked">记住密码</el-checkbox>
@@ -61,7 +61,14 @@
       return {
         dialogLoginFormVisible: false,
         dialogRegisterFormVisible: false,
-        form: {
+        loginForm: {
+          username: '',
+          password: ''
+        },
+        searchForm: {
+          key: ''
+        },
+        registerForm: {
           username: '',
           password: ''
         },
@@ -120,6 +127,12 @@
   .dialog-footer{
     padding-left: 80px;
     text-align: left;
+  }
+  .login{
+    z-index: 2005;
+  }
+  .register{
+    z-index: 2005;
   }
   .login .el-dialog__body{
     padding-bottom: 0;
