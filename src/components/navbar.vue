@@ -15,7 +15,7 @@
     height: 60px;
     margin: 73px auto;
     margin-bottom: 0px;
-    z-index: 1111;
+    z-index: 1000;
   }
   .el-menu-item{
     padding:0 100px;

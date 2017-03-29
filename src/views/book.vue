@@ -44,16 +44,17 @@
     				<el-tab-pane label="目录" name="second" v-model="bookInfo">
     					<h3>全部章节（共{{bookInfo.length}}章）</h3>
     					<ul class="book-cat-ul">
-    						<li class="book-cat-li" v-for="cat in bookInfo" @click="read(cat.id)">第{{cat.id}}章   {{cat.name}}</li>
+    						<li class="book-cat-li" v-for="cat in bookInfo" @click="read(cat.id)"><span>第{{cat.id}}章   {{cat.name}}</span></li>
     					</ul>
     				</el-tab-pane>
     				<el-tab-pane label="评论专区" name="third" style="background-color: #EEEEEE;height: 700px;">
     					<div class="comment">
     						<el-form ref="form" :model="form" label-width="80px" style="padding-left:40px;height: 185px; border-bottom: 1px dashed #8C939D;">
   						<el-form-item style="margin: 0 auto;" label="新增评论">
-    					<el-input v-model="form.name" placeholder="请输入评论内容"></el-input>
+    					<el-input type="textarea"
+                        :rows="4" v-model="form.name" placeholder="请输入评论内容"></el-input>
   						</el-form-item>
-  						<el-form-item style="padding: 0px;margin-left: 0px;">
+  						<el-form-item style="padding: 0px;margin-left: 0px;" class="comment-btn">
   							<el-button type="primary" @click="onSubmit">评论</el-button>
   						</el-form-item>
   						</el-form>
@@ -171,7 +172,7 @@
   .book-info p{
   	color: #8C939D;
   }
-  .el-button{
+  .book-info .el-button{
   	margin-bottom: 20px;
   }
   .book-cat-ul{
@@ -187,12 +188,18 @@
   	cursor: pointer;
   	border-bottom: 1px solid #EEEEEE;
   }
+  .book-cat-li span:hover{
+    color: #dea726;
+  }
   .book-tab{
   	height: 100%;
   	margin-bottom: 60px;
   }
   .comment .el-form-item{
   	width: 98%;
+  }
+  .comment-btn .el-form-item__content{
+    padding-top: 40px;
   }
   .el-input{
   	width:80%;
