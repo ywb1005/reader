@@ -66,9 +66,19 @@
 <script>
   import headers from 'components/header.vue'
   import navbars from 'components/navbar.vue'
+  const API = process.env.API
   export default {
     components: {
       headers, navbars
+    },
+    mounted () {
+      this.$http.get(API + 'token', {
+        params: {
+          mobile: 18857120799
+        }
+      }).then((response) => {
+        console.log(response.data)
+      })
     },
     data () {
       return {
@@ -98,7 +108,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   .block{
     width: 1252px;
     height: 250px;

@@ -9,7 +9,21 @@
     </el-menu>
   </div>
 </template>
-<style>
+<script>
+  export default {
+    data () {
+      return {
+        activeIndex: 1
+      }
+    },
+    methods: {
+      handleSelect () {
+        console.log('select')
+      }
+    }
+  }
+</script>
+<style scoped>
   .navbar{
     width: 1252px;
     height: 60px;

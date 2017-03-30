@@ -7,6 +7,9 @@ import 'element-ui/lib/theme-default/index.css'
 import router from './router'
 import store from './vuex'
 import { sync } from 'vuex-router-sync'
+import axios from 'axios'
+
+Vue.prototype.$http = axios
 
 sync(store, router)
 Vue.use(ElementUI)

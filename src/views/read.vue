@@ -11,7 +11,12 @@
       </div>
       <div class="base_set">
         <ul style="padding: 0;margin: 0">
-          <li class="set_list" style="border-right: 0px"><i class="fa fa-list fa-fw"></i><span class="set-spn">返回书籍</span></li>
+          <router-link :to="{path: '/book/'+this.$route.params.id}">
+          <li class="set_list" style="border-right: 0px">
+            <i class="fa fa-list fa-fw" style="color: black;"></i>
+            <span class="set-spn">返回书籍</span>
+          </li>
+          </router-link>
           <li class="set_list" style="border-right: 0px" v-on:mouseover="showMenu"><i class="fa fa-wrench fa-fw"></i><span class="set-spn">选择背景</span>
             <ul class="down-menu">
             <li class="down-list" v-for="theme in themeList" @click="changeColor(theme.id)" v-bind:class="{'change-down':flag==theme.id}">{{theme.name}}</li>
@@ -54,6 +59,7 @@
         catName: '存储',
         activeName: 'first',
         bookName: '盗天仙途',
+        bookId: 1,
         form: {
           name: ''
         },
@@ -166,7 +172,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   body{
     background-color: antiquewhite;
   }
@@ -206,6 +212,7 @@
   .set-spn{
     line-height: normal;
     font-size: 18px;
+    color: black;
   }
   .set-spn:hover{
     color: #eeeeee;

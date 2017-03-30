@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 Vue.use(Router)
 
 const router = new Router({
@@ -7,6 +9,10 @@ const router = new Router({
   routes: [
     {
       path: '/',
+      redirect: '/index'
+    },
+    {
+      path: '/index',
       title: '一叶书屋',
       component (resolve) {
         require(['views/index.vue'], resolve)
@@ -27,6 +33,14 @@ const router = new Router({
       }
     }
   ]
+})
+router.beforeEach((to, from, next) => {
+  NProgress.start()
+  next()
+})
+
+router.afterEach((transition) => {
+  NProgress.done()
 })
 
 export default router

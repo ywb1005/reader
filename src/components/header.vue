@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-  		<router-link to="/"><img src="../assets/index.png" /></router-link>
+  		<router-link :to="{path: '/'}"><img src="../assets/index.png" /></router-link>
     <el-form class="search" :model="searchForm" label-width="90px">
       <el-form-item label="搜索本站">
         <el-input v-model="searchForm.key" placeholder="请输入内容" icon="search"></el-input>
@@ -53,6 +53,7 @@
         </div>
       </el-dialog>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 <script>
@@ -86,7 +87,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   .header{
     position: fixed;
     top:0px;

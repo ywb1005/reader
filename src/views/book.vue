@@ -79,6 +79,9 @@
       	</div>
       </div>
   </div>
+    <transition name="slide-fade">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 <script>
@@ -128,7 +131,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   .breadcrumb{
   	width: 1252px;
   	margin: 0 auto;
