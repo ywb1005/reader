@@ -1,11 +1,11 @@
 <template>
   <div class="navbar">
-    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-      <el-menu-item  index="1"><router-link to="/">首页</router-link></el-menu-item>
-      <el-menu-item  index="3"><a href="https://www.ele.me" target="_blank">会员专区</a></el-menu-item>
-      <el-menu-item  index="4">读书资讯</el-menu-item>
-      <el-menu-item  index="5">热门书榜</el-menu-item>
-      <el-menu-item  index="6">书友天下</el-menu-item>
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" :router="true">
+      <el-menu-item  index="/">首页</el-menu-item>
+      <el-menu-item  index="/a">会员专区</a></el-menu-item>
+      <el-menu-item  index="/b">读书资讯</el-menu-item>
+      <el-menu-item  index="/c">热门书榜</el-menu-item>
+      <el-menu-item  index="/d">书友天下</el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -13,12 +13,13 @@
   export default {
     data () {
       return {
-        activeIndex: 1
+        activeIndex: '/'
       }
     },
     methods: {
-      handleSelect () {
-        console.log('select')
+      handleSelect (index) {
+        this.activeIndex = index
+        console.log(index)
       }
     }
   }

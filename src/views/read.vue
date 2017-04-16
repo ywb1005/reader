@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="body">
     <headers></headers>
     <div class="container" id="box">
       <div class="breadcrumb">
@@ -25,23 +25,33 @@
         </ul>
       </div>
       <div class="content">
-          <img style="width: 200px; " src="../../static/img/book.jpg">
+        <div style="float: left;">
+          <img style="width: 200px; " :src="image">
+        </div>
+        <div style="float: left;">
+          <h2 style="margin-left: 260px;margin-top: 30px">{{this.index}}. {{this.sectionName}}</h2>
+          <span style="margin-left: 260px;margin-top: 30px">作者: {{this.author}}</span>
+        </div>
         <div class="content_txt">
-          <p class="txt-p" v-for="content in contentList">{{content.text}}</p>
+          <p class="txt-p" v-for="content in contentList">{{content}}</p>
         </div>
       </div>
       <div class="select-section">
           <ul style="padding: 0;margin:0 auto;display:table;">
-            <li class="select-section-list">上一章</li>
+            <li class="select-section-list">
+              <el-button type="text" @click="prev" style="padding: 6px" :disabled="prevFlag">上一章</el-button>
+            </li>
             <li class="select-section-list">
               <el-button type="text" @click="dialogTableVisible = true" style="padding: 6px">目录</el-button>
               <el-dialog title="全部章节" v-model="dialogTableVisible">
                   <ul style="padding: 0;margin:0 auto;display:table;">
-                    <li class="book-menu" v-for="book in bookInfo"><span>第{{book.id}}章  {{book.name}}</span></li>
+                    <li class="book-menu" v-for="book in bookInfo"><span>第{{book.nodeId}}章  {{book.nodeName}}</span></li>
                   </ul>
               </el-dialog>
             </li>
-            <li class="select-section-list">下一章</li>
+            <li class="select-section-list">
+              <el-button type="text" @click="next" style="padding: 6px" :disabled="nextFlag">下一章</el-button>
+            </li>
           </ul>
       </div>
     </div>
@@ -49,65 +59,34 @@
 </template>
 <script>
   import headers from 'components/header.vue'
-  import navbars from 'components/navbar.vue'
+  const API = process.env.API
   export default {
     components: {
-      headers, navbars
+      headers
+    },
+    mounted () {
+      let bookId = this.$route.params.id
+      let id = this.$route.params.sectionId
+      this.catalog()
+      this.getbookInfo(bookId, id)
     },
     data () {
       return {
-        catName: '存储',
-        activeName: 'first',
-        bookName: '盗天仙途',
-        bookId: 1,
-        form: {
-          name: ''
-        },
+        catName: '',
+        bookName: '',
         dialogTableVisible: false,
+        image: '',
+        index: '',
+        sectionName: '',
         isMoon: true,
         flag: 1,
-        author: '荆轲守',
-        contentList: [
-          {id: 11,
-            text: '在古代西方社会，夜晚是非常危险的时段，失火、盗窃、抢劫，一 切都有可能。于是有了一个叫作守夜人的职业。他们在黑夜里一言不发， 在出现险情时发出警报，这让人们得以睡个好觉。' +
-          '在美剧《权力的游戏》 中，守夜人又变换了角色。他们在边境长城阻挡异鬼，让长城内的人类 得以安居乐业。买卖、赠与、婚嫁，这儿是法律的自由乐土；贪污、诈骗、 抢劫，这儿是法律的地狱恶道。在中国，检察官们手持侦查、' +
-          '控诉、监 督三种武器，筑起法律的边境长城，划分自由与不自由的界限。我们就 是法律的守夜人。在平时不显山、不露水，用一双冷眼观世界，但当违 法犯罪出现的时候，也就是检察官的正义之剑出鞘的时刻。'},
-          {id: 12,
-            text: '法官、律师和检察官是法律人最常选择的三个职业。说到法官，大 家就会想到一个戴着白色假发的男人，' +
-            '身着黑色法袍，在法庭正中正襟危 坐，不苟言笑；说到律师，大家就会想到一个红光满面的中年男人，' +
-            '在法 庭上西装革履，侃侃而谈；而说到检察官，大家却似乎跟断片儿了似的， 想不起来什么东西，这或许跟检察官的低调有关。'},
-          {id: 12,
-            text: '法官、律师和检察官是法律人最常选择的三个职业。说到法官，大 家就会想到一个戴着白色假发的男人，' +
-            '身着黑色法袍，在法庭正中正襟危 坐，不苟言笑；说到律师，大家就会想到一个红光满面的中年男人，' +
-            '在法 庭上西装革履，侃侃而谈；而说到检察官，大家却似乎跟断片儿了似的， 想不起来什么东西，这或许跟检察官的低调有关。'},
-          {id: 12,
-            text: '法官、律师和检察官是法律人最常选择的三个职业。说到法官，大 家就会想到一个戴着白色假发的男人，' +
-            '身着黑色法袍，在法庭正中正襟危 坐，不苟言笑；说到律师，大家就会想到一个红光满面的中年男人，' +
-            '在法 庭上西装革履，侃侃而谈；而说到检察官，大家却似乎跟断片儿了似的， 想不起来什么东西，这或许跟检察官的低调有关。'},
-
-          {id: 22, text: '无敌更好'}
-        ],
-        bookInfo: [
-        {id: 11, name: '蔑视真的是'},
-        {id: 12, name: '骑士'},
-        {id: 13, name: '无敌'},
-        {id: 14, name: '蔑视'},
-        {id: 15, name: '骑士'},
-        {id: 16, name: '无敌'},
-        {id: 17, name: '蔑视'},
-        {id: 18, name: '骑士'},
-        {id: 19, name: '无敌'},
-        {id: 20, name: '蔑视'},
-        {id: 21, name: '骑士'},
-        {id: 22, name: '无敌更好'}
-        ],
-        commentList: [
-          {id: 1, user: '叶伟标', info: '大师傅大师傅但是示范点发射点顺丰速递'},
-          {id: 2, user: '大师傅似的', info: '大师傅大师傅但是示范点发射点顺丰速递'},
-          {id: 1, user: '叶伟标', info: '大师傅大师傅但是示范点发射点顺丰速递'},
-          {id: 2, user: '大师傅似的', info: '大师傅大师傅但是示范点发射点顺丰速递'},
-          {id: 1, user: '叶伟标', info: '大师傅大师傅但是示范点发射点顺丰速递'}
-        ],
+        isStart: true,
+        isEnd: false,
+        author: '',
+        contentList: [],
+        bookInfo: [],
+        prevFlag: false,
+        nextFlag: false,
         themeList: [
           {id: 1, name: '默认'},
           {id: 2, name: '浅灰'},
@@ -122,31 +101,31 @@
         this.flag = id
         switch (id) {
           case 1:
-            document.body.style.backgroundColor = 'antiquewhite'
+            document.getElementsByClassName('body')[0].style.backgroundColor = 'antiquewhite'
             document.getElementById('box').style.backgroundColor = '#fcf5ed'
             document.getElementById('box').style.color = 'black'
             document.getElementById('moon').style.backgroundColor = '#fcf5ed'
             break
           case 2:
-            document.body.style.backgroundColor = '#efefef'
+            document.getElementsByClassName('body')[0].style.backgroundColor = '#efefef'
             document.getElementById('box').style.backgroundColor = '#f7f7f7'
             document.getElementById('box').style.color = 'black'
             document.getElementById('moon').style.backgroundColor = '#f7f7f7'
             break
           case 3:
-            document.body.style.backgroundColor = '#d2e6fa'
+            document.getElementsByClassName('body')[0].style.backgroundColor = '#d2e6fa'
             document.getElementById('box').style.backgroundColor = '#ebf5ff'
             document.getElementById('box').style.color = 'black'
             document.getElementById('moon').style.backgroundColor = '#ebf5ff'
             break
           case 4:
-            document.body.style.backgroundColor = '#d2efc3'
+            document.getElementsByClassName('body')[0].style.backgroundColor = '#d2efc3'
             document.getElementById('box').style.backgroundColor = '#eafae1'
             document.getElementById('box').style.color = 'black'
             document.getElementById('moon').style.backgroundColor = '#eafae1'
             break
           case 5:
-            document.body.style.backgroundColor = '#201c1d'
+            document.getElementsByClassName('body')[0].style.backgroundColor = '#201c1d'
             document.getElementById('box').style.backgroundColor = '#353434'
             document.getElementById('box').style.color = '#9a9a9a'
             document.getElementById('moon').style.backgroundColor = '#4db3ff'
@@ -168,12 +147,81 @@
           this.changeColor(1)
           this.isMoon = true
         }
+      },
+      catalog () {
+        let bookId = this.$route.params.id
+        this.$http.get(API + 'book/' + bookId + '/section', {
+        }).then((response) => {
+          if (response.data.code === 0) {
+            this.bookInfo = response.data.data
+          }
+        }, (response) => {
+          this.$message({
+            message: response.data.data,
+            showClose: true,
+            type: 'error'
+          })
+        })
+      },
+      getbookInfo (bookId, id) {
+        this.$http.get(API + 'book/' + bookId + '/section/' + id, {
+        }).then((response) => {
+          if (response.data.code === 0) {
+            this.catName = response.data.data.category
+            this.bookName = response.data.data.name
+            this.author = response.data.data.author
+            this.contentList = response.data.data.content
+            this.image = response.data.data.nodeImg
+            this.sectionName = response.data.data.nodeName
+            this.index = response.data.data.nodeId
+          }
+        }, (response) => {
+          this.$message({
+            message: response.data.data,
+            showClose: true,
+            type: 'error'
+          })
+        })
+      },
+      prev () {
+        let id = this.$route.params.sectionId
+        if (parseInt(id) === 1) {
+          this.prevFlag = true
+          this.$message({
+            message: '主人,没有上一章了',
+            showClose: true,
+            type: 'warning'
+          })
+        } else {
+          let bookId = this.$route.params.id
+          this.$router.push({'path': '/book/' + bookId + '/section/' + parseInt(id - 1)})
+        }
+      },
+      next () {
+//        console.log([this.bookInfo][0].length)
+        let id = this.$route.params.sectionId
+        if (this.bookInfo !== null) {
+          if (parseInt(id) === [this.bookInfo][0].length) {
+            this.nextFlag = true
+            this.$message({
+              message: '主人,没有下一章了',
+              showClose: true,
+              type: 'warning'
+            })
+          } else {
+            let bookId = this.$route.params.id
+            let section = parseInt(id) + 1
+            this.$router.push({'path': '/book/' + bookId + '/section/' + section})
+          }
+        }
       }
     }
   }
 </script>
 <style scoped>
-  body{
+  .body{
+    width: 100%;
+    height: 100%;
     background-color: antiquewhite;
   }
   .container{
@@ -248,7 +296,7 @@
     border: 1px solid #8c939d;
   }
   .select-section-list:hover{
-    background-color: #afddff;
+    background-color: #ffffff;
     color: bisque;
     cursor: pointer;
   }
@@ -281,5 +329,8 @@
   }
   .book-menu span:hover{
     color: #dea726;
+  }
+  .content_txt{
+    clear: both;
   }
 </style>

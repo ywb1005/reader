@@ -11,14 +11,16 @@
         </el-carousel>
       </div>
       <div class="row">
-        <div class="book-cell">
+        <div class="book-cell" v-loading="hotloading"
+             element-loading-text="拼命加载中"
+             style="width: 100%">
           <div class="cell-title">
             <h2>热门推荐</h2>
             <a class="cell-a">更多></a>
           </div>
-          <div class="book-list" v-model="bookList">
+          <div class="book-list">
             <ul v-for="book in bookList">
-              <li>
+              <li class="book-li">
                 <div class="book-img">
                 	<router-link :to="{ path: '/book/'+book.id }">
                 		<img :src="book.img">
@@ -36,12 +38,12 @@
             </ul>
           </div>
         </div>
-        <div class="book-cell">
+        <div class="book-cell" v-loading="newloading">
         <div class="cell-title">
             <h2>最新上架</h2>
             <a class="cell-a">更多></a>
           </div>
-          <div class="book-list newbook" v-model="newBookList">
+          <div class="book-list newbook">
             <ul v-for="book in newBookList">
               <li>
                 <div class="book-img">
@@ -72,43 +74,50 @@
       headers, navbars
     },
     mounted () {
-      this.$http.get(API + 'token', {
-        params: {
-          mobile: 18857120799
-        }
+      this.$http.get(API + 'index', {
       }).then((response) => {
-        console.log(response.data)
+        console.log(response.data.code)
+        if (response.data.code === 0) {
+          let hot = response.data.data.hot
+          let newbook = response.data.data.new
+          for (let i in hot) {
+            let book = {
+              id: hot[i].id,
+              name: hot[i].name,
+              author: hot[i].author,
+              img: 'static/img/book.jpg'
+            }
+            this.bookList.push(book)
+            this.hotloading = false
+          }
+          for (let j in newbook) {
+            let book = {
+              id: newbook[j].id,
+              name: newbook[j].name,
+              author: newbook[j].author,
+              img: 'static/img/book.jpg'
+            }
+            this.newBookList.push(book)
+            this.newloading = false
+          }
+        }
       })
     },
     data () {
       return {
-        bookList: [
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 1},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 2},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 3},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 4},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 5},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 6},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 7},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 8},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 9},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 10},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 11},
-          {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 12}
-        ],
-        newBookList: [
-        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 1},
-        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 2},
-        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 3},
-        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 4},
-        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 5},
-        {img: 'static/img/book.jpg', name: '天子谋', author: '叶伟标', id: 6}
-        ]
+        bookList: [],
+        hotloading: true,
+        newloading: true,
+        newBookList: []
       }
     }
   }
 </script>
 <style scoped>
+  body{
+    padding: 0;
+    background-color: #ffffff;
+  }
   .block{
     width: 1252px;
     height: 250px;
@@ -161,7 +170,12 @@
     margin-top: 10px;
   }
   .book-name span{
-    font-size: 22px;
+    display: block;
+    width:140px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 18px;
     color: #5c5050;
     cursor:pointer;
   }
@@ -169,10 +183,16 @@
   	color: 	#EE9A49;
   }
   .book-img img{
+    width: 142px;
+    height: 142px;
   	cursor:pointer;
   }
   .book-author span{
     font-size: 14px;
     color: #888;
+  }
+  .book-li{
+    width: 142px;
+    height: 210px;
   }
 </style>

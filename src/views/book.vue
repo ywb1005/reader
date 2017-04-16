@@ -20,31 +20,24 @@
       			<span class="spn">{{author}} 著</span>
       			<br />
       			<br />
-      			<el-tag>标签一</el-tag>
-						<el-tag type="gray">标签二</el-tag>
-						<el-tag type="primary">标签三</el-tag>
-						<el-tag type="success">标签四</el-tag>
-						<el-tag type="warning">标签五</el-tag>
-						<el-tag type="danger">标签六</el-tag>
+						<el-tag type="primary" v-for="val in key" style="margin-left: 5px"> {{val}} </el-tag>
 						<br />
 						<br />
       			<span class="desc">摘要</span>
-      			<p>故事发生在1866年,法国人阿龙纳斯,一位生物学家,应邀赴美参加一项科学考察活动.这时,海上出了个怪物,在全世界闹得沸沸扬扬.科考活动结束之后,生物学家正准备束装就道,返回法国,却接到美国海军部的邀请,于是改弦更张,登上了一艘驱逐舰林肯号,参与“把那个怪物从海洋中清除出去 ”的活动.
-经过千辛万苦</p>
+      			<p style="margin-bottom: 0px">{{this.desc}}</p>
  						<el-button type="info" @click="read(1)">立即阅读</el-button>
- 						<el-button type="info">加入收藏</el-button>
+ 						<el-button type="info" @click="join">加入收藏</el-button>
       		</div>
       	</div>
       	<div class="book-tab">
       			<el-tabs v-model="activeName">
-    				<el-tab-pane label="作品信息" name="first">
-    					<p>四大皆空很好但是时间快点发货金色都汇收到回复客户</p>
-    					<p>四大皆空很好但是时间快点发货金色都汇收到回复客户</p>
+    				<el-tab-pane label="作品下载" name="first">
+                <el-button type="info" @click="downBook">点击下载此书</el-button>
     				</el-tab-pane>
     				<el-tab-pane label="目录" name="second" v-model="bookInfo">
-    					<h3>全部章节（共{{bookInfo.length}}章）</h3>
+    					<h3>全部章节（共{{this.length}}章）</h3>
     					<ul class="book-cat-ul">
-    						<li class="book-cat-li" v-for="cat in bookInfo" @click="read(cat.id)"><span>第{{cat.id}}章   {{cat.name}}</span></li>
+    						<li class="book-cat-li" v-for="cat in bookInfo" @click="read(cat.id)"><span>第{{cat.nodeId}}章   {{cat.nodeName}}</span></li>
     					</ul>
     				</el-tab-pane>
     				<el-tab-pane label="评论专区" name="third" style="background-color: #EEEEEE;height: 700px;">
@@ -52,7 +45,7 @@
     						<el-form ref="form" :model="form" label-width="80px" style="padding-left:40px;height: 185px; border-bottom: 1px dashed #8C939D;">
   						<el-form-item style="margin: 0 auto;" label="新增评论">
     					<el-input type="textarea"
-                        :rows="4" v-model="form.name" placeholder="请输入评论内容"></el-input>
+                        :rows="4" v-model="form.content" placeholder="请输入评论内容"></el-input>
   						</el-form-item>
   						<el-form-item style="padding: 0px;margin-left: 0px;" class="comment-btn">
   							<el-button type="primary" @click="onSubmit">评论</el-button>
@@ -65,14 +58,23 @@
   										<img style="width: 64px;height: 64px;" src="../assets/user.png" />
   									</div>
   									<div class="comment-info">
-  										<span style="color: #F7BA2A;font-size: 20px;">{{comment.user}}: </span>
-  										<span>{{comment.info}}</span>
+  										<span style="color: #F7BA2A;font-size: 20px;">{{comment.username}}: </span>
+  										<span>{{comment.comment}}</span>
   										<br /><br />
-  										<span style="color: #8C939D;font-size: 14px;">2017-04-01 12:00:52</span>
+  										<span style="color: #8C939D;font-size: 14px;">{{comment.createTime}}</span>
   									</div>
   								</li>
   							</ul>
   						</div>
+                <div class="block">
+                  <el-pagination
+                    @current-change="handleCurrentChange"
+                    :current-page="page.current"
+                    :page-size="page.per"
+                    layout="prev, pager, next, total"
+                    :total="page.total">
+                  </el-pagination>
+                </div>
     					</div>
     				</el-tab-pane>
   					</el-tabs>
@@ -87,46 +89,186 @@
 <script>
   import headers from 'components/header.vue'
   import navbars from 'components/navbar.vue'
+  const API = process.env.API
   export default {
     components: {
       headers, navbars
     },
+    mounted () {
+      this.getCommentList(this.form.page)
+      this.catalog()
+      this.getbookInfo()
+    },
     data () {
       return {
-        catName: '存储',
+        catName: '',
         activeName: 'first',
-        bookName: '盗天仙途',
+        bookName: '',
+        desc: '',
+        url: '',
         form: {
-          name: ''
+          content: '',
+          page: 1
         },
-        author: '荆轲守',
-        bookInfo: [
-        {id: 11, name: '蔑视真的是'},
-        {id: 12, name: '骑士'},
-        {id: 13, name: '无敌'},
-        {id: 14, name: '蔑视'},
-        {id: 15, name: '骑士'},
-        {id: 16, name: '无敌'},
-        {id: 17, name: '蔑视'},
-        {id: 18, name: '骑士'},
-        {id: 19, name: '无敌'},
-        {id: 20, name: '蔑视'},
-        {id: 21, name: '骑士'},
-        {id: 22, name: '无敌更好'}
-        ],
-        commentList: [
-          {id: 1, user: '叶伟标', info: '大师傅大师傅但是示范点发射点顺丰速递'},
-          {id: 2, user: '大师傅似的', info: '大师傅大师傅但是示范点发射点顺丰速递'},
-          {id: 1, user: '叶伟标', info: '大师傅大师傅但是示范点发射点顺丰速递'},
-          {id: 2, user: '大师傅似的', info: '大师傅大师傅但是示范点发射点顺丰速递'},
-          {id: 1, user: '叶伟标', info: '大师傅大师傅但是示范点发射点顺丰速递'}
-        ]
+        author: '',
+        bookInfo: [],
+        key: [],
+        length: 0,
+        commentList: [],
+        page: {
+          current: 1,
+          per: 5,
+          total: 0,
+          from: 1,
+          to: 1,
+          last: 1
+        }
       }
     },
     methods: {
       read (section = 1) {
-        console.log(this.$route.path)
-        this.$router.push({'path': this.$route.path + '/section/' + section})
+        let user = window.localStorage.getItem('user')
+        if (user === null) {
+          this.$message({
+            message: '您还未登录,请先登录!',
+            showClose: true,
+            type: 'warning'
+          })
+        } else {
+          console.log(this.$route.path)
+          this.$router.push({'path': this.$route.path + '/section/' + section})
+        }
+      },
+      onSubmit () {
+        let user = JSON.parse(window.localStorage.getItem('user'))
+        if (user === null) {
+          this.$message({
+            message: '您还未登录,请先登录!',
+            showClose: true,
+            type: 'warning'
+          })
+        } else {
+          let bookId = this.$route.params.id
+          let param = {
+            content: this.form.content
+          }
+          this.$http.post(API + 'book/comment/' + bookId, param, {
+            headers: {
+              'Authorization': 'Bearer ' + user.token
+            }
+          }).then((response) => {
+            if (response.data.code === 0) {
+              this.page.current = response.data.data.current_page
+              this.page.per = response.data.data.per_page
+              this.page.total = response.data.data.total
+              this.page.last = response.data.data.last_page
+              this.page.from = response.data.data.from
+              this.page.to = response.data.data.to
+              this.commentList = response.data.data.list
+            }
+          }, (response) => {
+            this.$message({
+              message: response.data.message,
+              showClose: true,
+              type: 'error'
+            })
+          })
+        }
+      },
+      handleCurrentChange (val) {
+        this.page.current = val
+        console.log(`当前页: ${val}`)
+      },
+      getCommentList (page = 1) {
+        let bookId = this.$route.params.id
+        let param = {
+          page: page
+        }
+        this.$http.get(API + 'book/comment/' + bookId, {
+          params: param
+        }).then((response) => {
+          if (response.data.code === 0) {
+            this.page.current = response.data.data.current_page
+            this.page.per = response.data.data.per_page
+            this.page.total = response.data.data.total
+            this.page.last = response.data.data.last_page
+            this.page.from = response.data.data.from
+            this.page.to = response.data.data.to
+            this.commentList = response.data.data.list
+          }
+        }, (response) => {
+          this.$message({
+            message: response.data.message,
+            showClose: true,
+            type: 'error'
+          })
+        })
+      },
+      join () {
+        let user = window.localStorage.getItem('user')
+        if (user === null) {
+          this.$message({
+            message: '您还未登录,请先登录!',
+            showClose: true,
+            type: 'warning'
+          })
+        }
+      },
+      catalog () {
+        let bookId = this.$route.params.id
+        this.$http.get(API + 'book/' + bookId + '/section', {
+        }).then((response) => {
+          if (response.data.code === 0) {
+            this.bookInfo = response.data.data
+            if (response.data.data === null) {
+              this.length = 0
+            } else {
+              this.length = [this.bookInfo].length
+            }
+          }
+        }, (response) => {
+          this.$message({
+            message: response.data.data,
+            showClose: true,
+            type: 'error'
+          })
+        })
+      },
+      getbookInfo () {
+        let bookId = this.$route.params.id
+        this.$http.get(API + 'book/' + bookId, {
+        }).then((response) => {
+          if (response.data.code === 0) {
+            this.catName = response.data.data.category
+            this.bookName = response.data.data.name
+            this.author = response.data.data.author
+            this.desc = response.data.data.abstract
+            this.key = response.data.data.keyword
+            this.url = response.data.data.downUrl
+            console.log(response)
+          }
+        }, (response) => {
+          this.$message({
+            message: response.data.data,
+            showClose: true,
+            type: 'error'
+          })
+        })
+      },
+      downBook () {
+        let url = this.url
+        let a = document.createElement('a')
+        a.setAttribute('href', url)
+        a.setAttribute('download', '')
+        let evObj = document.createEvent('MouseEvents')
+        evObj.initEvent('click', true, true)
+        a.dispatchEvent(evObj)
+      }
+    },
+    watch: {
+      'page.current' (val) {
+        this.form.page = val
+        this.getCommentList(this.form.page)
       }
     }
   }
@@ -200,9 +342,10 @@
   }
   .comment .el-form-item{
   	width: 98%;
+    margin-left: 40px;
   }
-  .comment-btn .el-form-item__content{
-    padding-top: 40px;
+  .comment-btn{
+    margin-top: 20px;
   }
   .el-input{
   	width:80%;
@@ -233,6 +376,7 @@
   	float: left;
   	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   }
-  .comment-info span{
+  .block{
+    float: right;
   }
 </style>

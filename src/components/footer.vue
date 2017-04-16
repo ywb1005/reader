@@ -1,10 +1,22 @@
 <template>
   <div class="footer">
     <div class="font">
-      <span>Copyright By YWB @2017</span>
+      <span>Copyright 一页书屋 &copy; {{date}}</span>
     </div>
   </div>
 </template>
+<script>
+  export default {
+    created () {
+      this.date = new Date().getFullYear()
+    },
+    data () {
+      return {
+        data: ''
+      }
+    }
+  }
+</script>
 <style>
   .footer{
     width: 100%;

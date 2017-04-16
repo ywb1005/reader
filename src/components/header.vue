@@ -3,86 +3,80 @@
   		<router-link :to="{path: '/'}"><img src="../assets/index.png" /></router-link>
     <el-form class="search" :model="searchForm" label-width="90px">
       <el-form-item label="搜索本站">
-        <el-input v-model="searchForm.key" placeholder="请输入内容" icon="search"></el-input>
+        <el-input v-model="searchForm.key" placeholder="请输入内容" icon="search" :on-icon-click="search"></el-input>
       </el-form-item>
     </el-form>
-    <div class="user">
-    	<span class="spn" @click="dialogRegisterFormVisible = true">注册</span>
+    <div class="user" v-if="show">
+    	<span class="spn"><router-link :to="{path: '/register'}">注 册</router-link></span>
     	<span>|</span>
-    	<span class="spn" @click="dialogLoginFormVisible = true">登录</span>
-      <el-dialog title="书 屋 登 录" v-model="dialogLoginFormVisible" class="login" :modal-append-to-body="false">
-        <el-form :model="loginForm" label-width="80px">
-          <el-form-item label="用户名">
-            <el-input v-model="loginForm.username" placeholder="手机号\用户名\电子邮箱"></el-input>
-          </el-form-item>
-          <el-form-item label="密码">
-            <el-input type="password" v-model="loginForm.password"  placeholder="密码"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-checkbox v-model="checked">记住密码</el-checkbox>
-            <el-button type="text" @click="dialogLoginFormVisible = false" class="btn" size="mini" style="padding-left: 20px">忘记密码?</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="text" @click="smsLogin" size="mini" class="btn">短信快捷登录</el-button>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="dialogLoginFormVisible = false" size="large">登 录</el-button>
-          <el-button  @click="dialogFormVisible = false" size="large">取 消</el-button>
-        </div>
-      </el-dialog>
-      <el-dialog title="书 屋 用 户 注 册" v-model="dialogRegisterFormVisible" class="register" :modal-append-to-body="false">
-        <el-form :model="registerForm" label-width="80px">
-          <el-form-item label="用户名">
-            <el-input v-model="registerForm.username" placeholder="手机号\用户名\电子邮箱"></el-input>
-          </el-form-item>
-          <el-form-item label="密码">
-            <el-input type="password" v-model="registerForm.password"  placeholder="密码"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-checkbox v-model="checked">记住密码</el-checkbox>
-            <el-button type="text" @click="dialogRegisterFormVisible = false" class="btn" size="mini" style="padding-left: 20px">忘记密码?</el-button>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="text" @click="smsLogin" size="mini" class="btn">短信快捷登录</el-button>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="dialogRegisterFormVisible = false" size="large">登 录</el-button>
-          <el-button  @click="dialogFormVisible = false" size="large">取 消</el-button>
-        </div>
-      </el-dialog>
+    	<span class="spn"><router-link :to="{path: '/login'}">登 录</router-link></span>
+    </div>
+    <div class="user" v-else>
+      <span class="spn"><router-link :to="{path: '/register'}">个 人 中 心</router-link></span>
+      <span>|</span>
+      <span class="spn" @click="logout">退 出</span>
     </div>
     <router-view></router-view>
   </div>
 </template>
 <script>
+  const API = process.env.API
   export default {
+    created () {
+      let user = window.localStorage.getItem('user')
+      this.user = user
+    },
     data () {
       return {
-        dialogLoginFormVisible: false,
-        dialogRegisterFormVisible: false,
-        loginForm: {
-          username: '',
-          password: ''
-        },
         searchForm: {
           key: ''
         },
-        registerForm: {
-          username: '',
-          password: ''
-        },
-        checked: false
+        show: true,
+        user: ''
       }
     },
     methods: {
-      smsLogin () {
+      logout () {
+        window.localStorage.removeItem('user')
+        this.show = true
         this.$message({
+          message: '退出成功',
           showClose: true,
-          duration: 1000,
-          message: '尚未开放,倾尽期待!'
+          type: 'info'
         })
+      },
+      search () {
+        let param = {
+          key: this.searchForm.key
+        }
+        this.$http.get(API + 'search', {
+          params: param
+        }).then((response) => {
+          if (response.data.code === 0) {
+            this.$router.push({'path': '/book/' + response.data.data.id})
+          } else {
+            this.$message({
+              message: response.data.message,
+              showClose: true,
+              type: 'error'
+            })
+          }
+        }, (response) => {
+          this.$message({
+            message: response.data.message,
+            showClose: true,
+            type: 'error'
+          })
+        })
+      }
+    },
+    watch: {
+      user: function (val) {
+        if (val === null) {
+          this.show = true
+        } else {
+          this.show = false
+        }
       }
     }
   }
@@ -114,6 +108,12 @@
   	color: #20A0FF;
   	text-decoration:underline
   }
+  a:hover{
+    color: #20A0FF;
+  }
+  a{
+    color: black;
+  }
   .user{
     width: 15%;
     height: 80px;
@@ -123,6 +123,7 @@
     padding-top: 1.5%;
   }
   .user span{
+    cursor: pointer;
     font-size: 16px;
   }
   .dialog-footer{

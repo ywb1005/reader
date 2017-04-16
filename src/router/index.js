@@ -19,6 +19,20 @@ const router = new Router({
       }
     },
     {
+      path: '/register',
+      title: '一叶书屋',
+      component (resolve) {
+        require(['views/register.vue'], resolve)
+      }
+    },
+    {
+      path: '/login',
+      title: '一叶书屋',
+      component (resolve) {
+        require(['views/login.vue'], resolve)
+      }
+    },
+    {
       path: '/book/:id',
       title: '书籍信息',
       component (resolve) {
