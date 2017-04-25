@@ -12,7 +12,7 @@
     	<span class="spn"><router-link :to="{path: '/login'}">登 录</router-link></span>
     </div>
     <div class="user" v-else>
-      <span class="spn"><router-link :to="{path: '/register'}">个 人 中 心</router-link></span>
+      <span class="spn"><router-link :to="{path: '/user'}">个 人 中 心</router-link></span>
       <span>|</span>
       <span class="spn" @click="logout">退 出</span>
     </div>

@@ -194,7 +194,8 @@
           })
         } else {
           let bookId = this.$route.params.id
-          this.$router.push({'path': '/book/' + bookId + '/section/' + parseInt(id - 1)})
+          this.$router.push({path: '/book/' + bookId + '/section/' + parseInt(id - 1)})
+          this.$router.go(0)
         }
       },
       next () {
@@ -211,7 +212,8 @@
           } else {
             let bookId = this.$route.params.id
             let section = parseInt(id) + 1
-            this.$router.push({'path': '/book/' + bookId + '/section/' + section})
+            this.$router.push({path: '/book/' + bookId + '/section/' + section})
+            this.$router.go(0)
           }
         }
       }

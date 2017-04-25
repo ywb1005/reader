@@ -26,7 +26,8 @@
       			<span class="desc">摘要</span>
       			<p style="margin-bottom: 0px">{{this.desc}}</p>
  						<el-button type="info" @click="read(1)">立即阅读</el-button>
- 						<el-button type="info" @click="join">加入收藏</el-button>
+ 						<el-button  @click="cancelCollect" v-if="collect">取消收藏</el-button>
+            <el-button  type="info" @click="join" v-else="collect">加入收藏</el-button>
       		</div>
       	</div>
       	<div class="book-tab">
@@ -90,6 +91,7 @@
   import headers from 'components/header.vue'
   import navbars from 'components/navbar.vue'
   const API = process.env.API
+  let user = JSON.parse(window.localStorage.getItem('user'))
   export default {
     components: {
       headers, navbars
@@ -98,10 +100,14 @@
       this.getCommentList(this.form.page)
       this.catalog()
       this.getbookInfo()
+      if (user !== null) {
+        this.isCollect()
+      }
     },
     data () {
       return {
         catName: '',
+        collect: false,
         activeName: 'first',
         bookName: '',
         desc: '',
@@ -126,6 +132,51 @@
       }
     },
     methods: {
+      isCollect () {
+        let bookId = this.$route.params.id
+        this.$http.post(API + 'user/collect/check', {bookId: bookId}, {
+          headers: {
+            'Authorization': 'Bearer ' + user.token
+          }
+        }).then((response) => {
+          if (response.data.code === 0) {
+            if (response.data.data === 1) {
+              this.collect = true
+            } else {
+              this.collect = false
+            }
+          }
+        }, (response) => {
+          this.$message({
+            message: response.data.message,
+            showClose: true,
+            type: 'error'
+          })
+        })
+      },
+      cancelCollect () {
+        let bookId = this.$route.params.id
+        this.$http.post(API + 'user/collect/cancel', {bookId: bookId}, {
+          headers: {
+            'Authorization': 'Bearer ' + user.token
+          }
+        }).then((response) => {
+          if (response.data.code === 0) {
+            this.$message({
+              message: '取消收藏成功',
+              showClose: true,
+              type: 'info'
+            })
+            this.collect = false
+          }
+        }, (response) => {
+          this.$message({
+            message: response.data.message,
+            showClose: true,
+            type: 'error'
+          })
+        })
+      },
       read (section = 1) {
         let user = window.localStorage.getItem('user')
         if (user === null) {
@@ -135,12 +186,10 @@
             type: 'warning'
           })
         } else {
-          console.log(this.$route.path)
           this.$router.push({'path': this.$route.path + '/section/' + section})
         }
       },
       onSubmit () {
-        let user = JSON.parse(window.localStorage.getItem('user'))
         if (user === null) {
           this.$message({
             message: '您还未登录,请先登录!',
@@ -205,14 +254,34 @@
         })
       },
       join () {
-        let user = window.localStorage.getItem('user')
+        let user = JSON.parse(window.localStorage.getItem('user'))
+        let bookId = this.$route.params.id
         if (user === null) {
           this.$message({
             message: '您还未登录,请先登录!',
             showClose: true,
             type: 'warning'
           })
+          return false
         }
+        this.$http.post(API + 'user/collect', {bookId: bookId}, {
+          headers: {'Authorization': 'Bearer ' + user.token}
+        }).then((response) => {
+          if (response.data.code === 0) {
+            this.$message({
+              message: '添加成功',
+              showClose: true,
+              type: 'info'
+            })
+            this.collect = true
+          }
+        }, (response) => {
+          this.$message({
+            message: '错误码为: ' + response.data.data,
+            showClose: true,
+            type: 'error'
+          })
+        })
       },
       catalog () {
         let bookId = this.$route.params.id
@@ -245,7 +314,7 @@
             this.desc = response.data.data.abstract
             this.key = response.data.data.keyword
             this.url = response.data.data.downUrl
-            console.log(response)
+//            console.log(response)
           }
         }, (response) => {
           this.$message({
@@ -256,6 +325,15 @@
         })
       },
       downBook () {
+        let user = window.localStorage.getItem('user')
+        if (user === null) {
+          this.$message({
+            message: '您还未登录,请先登录!',
+            showClose: true,
+            type: 'warning'
+          })
+          return false
+        }
         let url = this.url
         let a = document.createElement('a')
         a.setAttribute('href', url)
@@ -263,6 +341,23 @@
         let evObj = document.createEvent('MouseEvents')
         evObj.initEvent('click', true, true)
         a.dispatchEvent(evObj)
+        this.downLog()
+      },
+      downLog () {
+        let bookId = this.$route.params.id
+        this.$http.post(API + 'user/download', {bookId: bookId}, {
+          headers: {'Authorization': 'Bearer ' + user.token}
+        }).then((response) => {
+          if (response.data.code === 0) {
+            console.log(response.data)
+          }
+        }, (response) => {
+          this.$message({
+            message: '错误码为: ' + response.data.data,
+            showClose: true,
+            type: 'error'
+          })
+        })
       }
     },
     watch: {

@@ -85,7 +85,7 @@
               id: hot[i].id,
               name: hot[i].name,
               author: hot[i].author,
-              img: 'static/img/book.jpg'
+              img: '/static/img/book.jpg'
             }
             this.bookList.push(book)
             this.hotloading = false
@@ -95,7 +95,7 @@
               id: newbook[j].id,
               name: newbook[j].name,
               author: newbook[j].author,
-              img: 'static/img/book.jpg'
+              img: '/static/img/book.jpg'
             }
             this.newBookList.push(book)
             this.newloading = false

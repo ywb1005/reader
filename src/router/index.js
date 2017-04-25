@@ -45,6 +45,13 @@ const router = new Router({
       component (resolve) {
         require(['views/read.vue'], resolve)
       }
+    },
+    {
+      path: '/user',
+      title: '个人中心',
+      component (resolve) {
+        require(['views/user.vue'], resolve)
+      }
     }
   ]
 })

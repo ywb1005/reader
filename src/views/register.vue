@@ -125,8 +125,16 @@
           mobile: this.form.mobile,
           type: 1
         }
+        if (this.form.mobile === '') {
+          this.$message({
+            message: '请输入手机号',
+            showClose: true,
+            type: 'error'
+          })
+          return false
+        }
         let self = this
-        let sec = 60
+        let sec = 120
         for (let i = 0; i <= 60; i++) {
           window.setTimeout(function () {
             if (sec !== 0) {
@@ -134,7 +142,7 @@
               self.timerCodeMsg = sec + '秒后重发验证'
               sec--
             } else {
-              sec = 60// 如果倒计时结束就让  获取验证码显示出来
+              sec = 120// 如果倒计时结束就让  获取验证码显示出来
               self.fetchCodeMsg = true
             }
           }, i * 1000)
